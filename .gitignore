@@ -8,6 +8,7 @@
 # Ignore configuration files that may contain sensitive information
 /web/sites/*/*settings*.php
 /web/sites/*/*services*.yml
+.env
 
 # Ignore paths that may contain user-generated content
 /web/sites/*/files
@@ -48,12 +49,13 @@
 /web/index.php
 /web/INSTALL.txt
 /web/LICENSE.txt
-/web/README.txt
+/web/README.md
 /web/robots.txt
 /web/update.php
 /web/web.config
 
 # Ignore vendor dependencies and scripts
+/recipes
 /vendor
 /composer.phar
 /composer
