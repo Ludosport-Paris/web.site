@@ -1,0 +1,25 @@
+uuid: cdbeca37-92a6-4a2f-9ee6-cf2cfcf3118d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_first_membership_date
+    - profile.type.member
+  module:
+    - datetime
+    - profile
+third_party_settings:
+  profile:
+    profile_private: true
+id: profile.member.field_first_membership_date
+field_name: field_first_membership_date
+entity_type: profile
+bundle: member
+label: 'First membership date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

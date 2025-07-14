@@ -1,0 +1,11 @@
+uuid: 00ec83d3-0d3b-408b-a8b6-fc67d8c63f6c
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.image
+id: media.image
+target_entity_type_id: media
+target_bundle: image
+default_langcode: site_default
+language_alterable: false

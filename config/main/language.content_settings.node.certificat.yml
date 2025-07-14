@@ -1,0 +1,11 @@
+uuid: 5697fb6d-35ac-4f79-bc4a-c6c1882a5500
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.certificat
+id: node.certificat
+target_entity_type_id: node
+target_bundle: certificat
+default_langcode: site_default
+language_alterable: false

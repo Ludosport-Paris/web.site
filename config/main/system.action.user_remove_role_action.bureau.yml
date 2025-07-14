@@ -1,0 +1,14 @@
+uuid: 3260db9b-1ab3-4342-aa4e-cb9e4497595c
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.bureau
+  module:
+    - user
+id: user_remove_role_action.bureau
+label: 'Remove the Bureau role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: bureau

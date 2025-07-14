@@ -1,0 +1,9 @@
+uuid: cdd0b36f-c939-47f9-b5cf-f09239944b37
+langcode: und
+status: true
+dependencies: {  }
+name: 'Certification status'
+vid: status
+description: null
+weight: 0
+new_revision: false

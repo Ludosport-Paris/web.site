@@ -1,32 +1,33 @@
 uuid: d775ae26-330d-4740-bebc-eb3fac9490e6
-langcode: en
+langcode: fr
 status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - taxonomy.vocabulary.discover_first_contact
+    - taxonomy.vocabulary.discover_how
   module:
     - comment
-    - contact
     - file
     - filter
     - media
-    - search
     - shortcut
     - system
+    - taxonomy
 _core:
   default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
 id: authenticated
-label: 'Authenticated user'
+label: 'Utilisateur authentifié'
 weight: 1
 is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
   - 'access shortcuts'
-  - 'access site-wide contact form'
+  - 'create terms in discover_first_contact'
+  - 'create terms in discover_how'
   - 'delete own files'
   - 'post comments'
-  - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
   - 'view media'

@@ -1,0 +1,11 @@
+uuid: fce413c4-16eb-450c-ae4b-976cf29d12da
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.discover_first_contact
+id: taxonomy_term.discover_first_contact
+target_entity_type_id: taxonomy_term
+target_bundle: discover_first_contact
+default_langcode: site_default
+language_alterable: false

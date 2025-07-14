@@ -1,0 +1,19 @@
+uuid: 1e4e85f2-7cf0-4075-82b3-e2d9eb89b901
+langcode: en
+status: true
+dependencies:
+  module:
+    - address
+    - profile
+id: profile.field_postal_address
+field_name: field_postal_address
+entity_type: profile
+type: address
+settings: {  }
+module: address
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

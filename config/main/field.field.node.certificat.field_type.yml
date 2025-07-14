@@ -1,0 +1,29 @@
+uuid: 84f35f85-3820-46d8-8975-1e8d8b4b86e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type
+    - node.type.certificat
+    - taxonomy.vocabulary.certification_type
+id: node.certificat.field_type
+field_name: field_type
+entity_type: node
+bundle: certificat
+label: Type
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      certification_type: certification_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

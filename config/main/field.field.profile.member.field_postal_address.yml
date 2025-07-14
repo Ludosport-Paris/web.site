@@ -1,0 +1,45 @@
+uuid: 04798e54-1973-427c-bb1b-0dc56f676907
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_postal_address
+    - profile.type.member
+  module:
+    - address
+    - profile
+third_party_settings:
+  profile:
+    profile_private: true
+id: profile.member.field_postal_address
+field_name: field_postal_address
+entity_type: profile
+bundle: member
+label: Address
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  available_countries:
+    FR: FR
+    PF: PF
+  langcode_override: fr
+  field_overrides:
+    givenName:
+      override: hidden
+    additionalName:
+      override: hidden
+    familyName:
+      override: hidden
+    organization:
+      override: hidden
+    addressLine1:
+      override: required
+    postalCode:
+      override: required
+    locality:
+      override: required
+  fields: {  }
+field_type: address

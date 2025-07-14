@@ -1,0 +1,97 @@
+uuid: bdd53dba-7a86-4297-b024-a3819ba7d748
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.member.field_birthdate
+    - field.field.profile.member.field_discover_first_contact
+    - field.field.profile.member.field_discover_how
+    - field.field.profile.member.field_discover_where
+    - field.field.profile.member.field_first_membership_date
+    - field.field.profile.member.field_firstname
+    - field.field.profile.member.field_lastname
+    - field.field.profile.member.field_phone
+    - field.field.profile.member.field_postal_address
+    - profile.type.member
+  module:
+    - address
+    - datetime
+id: profile.member.default
+targetEntityType: profile
+bundle: member
+mode: default
+content:
+  field_birthdate:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_discover_first_contact:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_discover_how:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_discover_where:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_first_membership_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_firstname:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_lastname:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_postal_address:
+    type: address_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true

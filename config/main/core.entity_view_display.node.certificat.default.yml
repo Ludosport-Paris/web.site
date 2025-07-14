@@ -1,0 +1,68 @@
+uuid: 116438c4-c27e-45a1-86dd-121f1f529228
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.certificat.field_date
+    - field.field.node.certificat.field_goal
+    - field.field.node.certificat.field_member
+    - field.field.node.certificat.field_status
+    - field.field.node.certificat.field_type
+    - node.type.certificat
+  module:
+    - datetime
+    - user
+id: node.certificat.default
+targetEntityType: node
+bundle: certificat
+mode: default
+content:
+  field_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_goal:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_member:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_status:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

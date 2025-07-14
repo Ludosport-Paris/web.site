@@ -1,0 +1,11 @@
+uuid: 142dce8b-a04c-4e08-bce0-3fce89d03381
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.discover_how
+id: taxonomy_term.discover_how
+target_entity_type_id: taxonomy_term
+target_bundle: discover_how
+default_langcode: site_default
+language_alterable: false

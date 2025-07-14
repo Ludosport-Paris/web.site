@@ -1,0 +1,19 @@
+uuid: af3b151e-0350-40a4-8e91-a9c2c5ddd877
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.certificat
+  module:
+    - node
+id: bureau
+label: Bureau
+weight: 4
+is_admin: false
+permissions:
+  - 'create certificat content'
+  - 'delete any certificat content'
+  - 'delete certificat revisions'
+  - 'edit any certificat content'
+  - 'revert certificat revisions'
+  - 'view certificat revisions'

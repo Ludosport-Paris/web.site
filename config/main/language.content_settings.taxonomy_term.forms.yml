@@ -1,0 +1,11 @@
+uuid: 8de64c40-f84e-45c4-9c78-4fd2cbb76e4f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.forms
+id: taxonomy_term.forms
+target_entity_type_id: taxonomy_term
+target_bundle: forms
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,25 @@
+uuid: d1a01ba0-6892-4578-b1a4-96e839293213
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_birthdate
+    - profile.type.member
+  module:
+    - datetime
+    - profile
+third_party_settings:
+  profile:
+    profile_private: true
+id: profile.member.field_birthdate
+field_name: field_birthdate
+entity_type: profile
+bundle: member
+label: Birthdate
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

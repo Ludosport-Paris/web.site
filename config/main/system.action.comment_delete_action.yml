@@ -1,5 +1,5 @@
 uuid: 2949f0c7-1525-4f6d-9916-6fb0bb8685bc
-langcode: en
+langcode: fr
 status: true
 dependencies:
   module:
@@ -7,7 +7,7 @@ dependencies:
 _core:
   default_config_hash: vpBH8OmL4sdesCdeZLsW8KOutB5gkbreWJbfjhfFKaQ
 id: comment_delete_action
-label: 'Delete comment'
+label: 'Supprimer le commentaire'
 type: comment
 plugin: 'entity:delete_action:comment'
 configuration: {  }
