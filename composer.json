@@ -31,9 +31,11 @@
         "drupal/password_policy": "^4.0",
         "drupal/pathauto": "^1.13",
         "drupal/profile": "^1.12",
+        "drupal/robotstxt": "^1.6",
         "drupal/search_api": "^1.38",
         "drupal/search_api_solr": "^4.3",
         "drupal/shs": "^2.0",
+        "drupal/symfony_mailer_lite": "^2.0",
         "drupal/taxonomy_manager": "^2.0",
         "drupal/term_reference_tree": "^2.0",
         "drupal/ultimate_cron": "^2.0@beta",
@@ -60,6 +62,11 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
+            },
+            "file-mapping": {
+                "[web-root]/robots.txt": {
+                    "mode": "skip"
+                }
             }
         },
         "installer-paths": {

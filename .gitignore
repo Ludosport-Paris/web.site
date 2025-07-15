@@ -36,7 +36,6 @@
 /web/themes/README.txt
 /web/themes/contrib
 /web/.csslintrc
-/web/.editorconfig
 /web/.eslintignore
 /web/.eslintrc.json
 /web/.gitattributes
@@ -55,6 +54,7 @@
 /web/web.config
 
 # Ignore vendor dependencies and scripts
+/.editorconfig
 /recipes
 /vendor
 /composer.phar
@@ -65,3 +65,6 @@
 /drush
 /drupal.phar
 /drupal
+
+# Ignore sql dumps
+/web/*.sql
