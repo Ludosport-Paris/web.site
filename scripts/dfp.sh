@@ -9,7 +9,7 @@ fi
 # Teste si le répertoire existe
 if [ -d "$1/web" ]; then
   pushd $1/web
-  chown -R deploy:daemon .
+  chown -R 1001:1 .
   find . -type d -exec chmod u=rwx,g=rx,o= '{}' \;
   find . -type f -exec chmod u=rw,g=r,o= '{}' \;
   pushd $1/web/sites

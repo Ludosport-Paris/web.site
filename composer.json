@@ -25,6 +25,7 @@
         "drupal/gin_login": "^2.1",
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/login_emailusername": "^3.0",
+        "drupal/module_filter": "^5.0",
         "drupal/navigation_extra_tools": "^1.0",
         "drupal/paragraphs": "^1.19",
         "drupal/paragraphs_ee": "^10.0",
@@ -103,7 +104,6 @@
         }
     },
     "require-dev": {
-        "drupal/devel": "^5.4",
-        "drupal/module_filter": "^5.0"
+        "drupal/devel": "^5.4"
     }
 }
