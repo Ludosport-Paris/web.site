@@ -18,11 +18,13 @@ docker exec --user 1001:1 ludosport_php drush cr
 
 # Switch site version
 rm /var/local/ludosport/www/current
-ln -s /var/local/ludosport/www/$distribution /var/local/ludosport/www/current
+ln -s $distribution /var/local/ludosport/www/current
+
+# Create public files symbolic links
+ln -s /var/local/files /var/local/ludosport/www/current/web/sites/default
 
 # Restart containers to take the switch into account
-docker stop ludosport_web ludosport_php
-docker start ludosport_web ludosport_php
+docker restart ludosport_web ludosport_php
 
 # Composer install
 docker exec --user 1001:1 -ti ludosport_php composer install --no-dev
@@ -37,4 +39,4 @@ docker exec --user 1001:1 -ti ludosport_php drush updb -y
 docker exec --user 1001:1 -ti ludosport_php bash -c "drush cim -y > /dev/null || drush cim -y"
 
 # Maintenance mode off
-docker exec php-fpm drush maint:set 0
+docker exec --user 1001:1 -ti ludosport_php drush maint:set 0

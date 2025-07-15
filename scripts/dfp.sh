@@ -8,15 +8,15 @@ fi
 
 # Teste si le répertoire existe
 if [ -d "$1/web" ]; then
-  pushd $1/web
+  cd $1/web
   chown -R 1001:1 .
   find . -type d -exec chmod u=rwx,g=rx,o= '{}' \;
   find . -type f -exec chmod u=rw,g=r,o= '{}' \;
-  pushd $1/web/sites
+  cd $1/web/sites
   find . -type d -name files -exec chmod ug=rwx,o= '{}' \;
   find ./*/files -type d -exec chmod ug=rwx,o= '{}' \;
   find ./*/files -type f -exec chmod ug=rw,o= '{}' \;
-  popd -2
+  echo "✅ Drupal file permissions successfully updated."
 else
   echo "❌ Le répertoire '$1/web' n'existe pas."
   exit 2
