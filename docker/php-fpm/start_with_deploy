@@ -9,24 +9,26 @@ else
 fi
 
 
-# Change owner group of all application
+# Change owner group of all application assets
 chown -R ${DEPLOY_USER}:${WWW_USER} /var/www/ludosport
+chown -R ${DEPLOY_USER}:${WWW_USER} /var/local/settings.php
 chown -R ${DEPLOY_USER}:${WWW_USER} /var/local/files
 chown -R ${DEPLOY_USER}:${WWW_USER} /var/local/private
 
-# Create public files symbolic links
-ln -fs /var/local/files /var/www/ludosport/web/sites/default/files
-
-# Add drush symbolic link
-ln -fs /var/www/ludosport/vendor/bin/drush /usr/local/bin/drush
+# Create settings.php symbolic link
+ln -fs /var/local/settings.php /var/www/ludosport/web/sites/default/settings.php
 
 # Manage file permissions
 find /var/www/ludosport/web -type d -exec chmod u=rwx,g=rx,o= '{}' \;
 find /var/www/ludosport/web -type f -exec chmod u=rw,g=r,o= '{}' \;
-chmod ug=rwx,o= /var/local/files
-chmod ug=rwx,o= /var/local/private
-find /var/www/ludosport/web/sites/*/files -type d -exec chmod ug=rwx,o= '{}' \;
-find /var/www/ludosport/web/sites/*/files -type f -exec chmod ug=rw,o= '{}' \;
+ln -fs /var/local/files /var/www/ludosport/web/sites/default/files
+chmod -R ug=rwx,o= /var/www/ludosport/web/sites/default/files
+chmod -R ug=rwx,o= /var/local/private
+find /var/www/ludosport/web/sites/default/files -type f -exec chmod ug=rw,o= '{}' \;
+find /var/local/private -type f -exec chmod ug=rw,o= '{}' \;
+
+# Add drush symbolic link
+ln -fs /var/www/ludosport/vendor/bin/drush /usr/local/bin/drush
 
 if [[ "$APP_ENV" = "local" ]]; then
     echo "No deploy on local env."

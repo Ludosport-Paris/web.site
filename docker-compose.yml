@@ -3,14 +3,12 @@ name: ludosport-paris
 services:
 
   apache:
-    image: httpd:2.4-alpine
+    build: ./docker/apache
     container_name: ludosport_web
     pull_policy: always
     ports:
       - 80:80
     volumes:
-      - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
-      - ./docker/apache/vhosts/ludosport.conf:/usr/local/apache2/conf/vhosts/ludosport.conf:ro
       - ./web:/var/www/ludosport/web:ro
       - drupal_public_files:/var/local/files:ro
     restart: always
@@ -37,7 +35,6 @@ services:
       - HASH_SALT
     volumes:
       - ./:/var/www/ludosport
-      - ./docker/drupal/settings.php:/var/www/ludosport/web/sites/default/settings.php
       - drupal_public_files:/var/local/files
       - drupal_private_files:/var/local/private
     restart: always

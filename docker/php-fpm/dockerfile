@@ -44,6 +44,9 @@ RUN if [[ $DEPLOY_USER_ID -ne 0 ]]; then adduser -u $DEPLOY_USER_ID -G www-data 
 # Add root user to www-data group
 RUN addgroup root www-data
 
+# Copy Drupal settings.php
+COPY drupal/settings.php /var/local/
+
 WORKDIR /var/www/ludosport
 
 COPY start_with_deploy /usr/local/bin/
