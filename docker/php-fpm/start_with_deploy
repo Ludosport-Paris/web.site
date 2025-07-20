@@ -1,0 +1,42 @@
+#!/bin/sh
+
+WWW_USER=www-data
+DEPLOY_USER=deploy
+
+# Change owner group of all application
+chown -R ${DEPLOY_USER}:${WWW_USER} /var/www/ludosport
+chown -R ${DEPLOY_USER}:${WWW_USER} /var/local/files
+chown -R ${DEPLOY_USER}:${WWW_USER} /var/local/private
+
+# Create public files symbolic links
+ln -fs /var/local/files /var/www/ludosport/web/sites/default/files
+
+# Add drush symbolic link
+ln -fs /var/www/ludosport/vendor/bin/drush /usr/local/bin/drush
+
+# Manage file permissions
+find /var/www/ludosport/web -type d -exec chmod u=rwx,g=rx,o= '{}' \;
+find /var/www/ludosport/web -type f -exec chmod u=rw,g=r,o= '{}' \;
+chmod ug=rwx,o= /var/local/files
+chmod ug=rwx,o= /var/local/private
+find /var/www/ludosport/web/sites/*/files -type d -exec chmod ug=rwx,o= '{}' \;
+find /var/www/ludosport/web/sites/*/files -type f -exec chmod ug=rw,o= '{}' \;
+
+if [[ "$APP_ENV" = "local" ]]; then
+    echo "No deploy on local env."
+else
+    # Composer install
+    sudo -E -u ${DEPLOY_USER} composer install --no-dev
+
+    # Cache clear
+    sudo -E -u ${WWW_USER} drush cr
+
+    # DB Update
+    sudo -E -u ${WWW_USER} drush updb -y
+
+    # Import configs
+    sudo -E -u ${WWW_USER} bash -c "drush cim -y > /dev/null || drush cim -y"
+fi
+
+# Launch initial CMD
+exec "php-fpm"

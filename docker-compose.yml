@@ -1,0 +1,102 @@
+name: ludosport-paris
+
+services:
+
+  apache:
+    image: httpd:2.4-alpine
+    container_name: ludosport_web
+    pull_policy: always
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./docker/apache/vhosts/ludosport.conf:/usr/local/apache2/conf/vhosts/ludosport.conf:ro
+      - ./web:/var/www/ludosport/web:ro
+      - drupal_public_files:/var/local/files:ro
+    restart: always
+    networks:
+      - ludosport
+      - proxy
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    build: ./docker/php-fpm
+    container_name: ludosport_php
+    pull_policy: always
+    environment:
+      - APP_ENV
+      - DBNAME
+      - USERNAME
+      - PASSWORD
+      - HOST
+      - PORT
+      - HASH_SALT
+    volumes:
+      - ./:/var/www/ludosport
+      - ./docker/drupal/settings.php:/var/www/ludosport/web/sites/default/settings.php
+      - drupal_public_files:/var/local/files
+      - drupal_private_files:/var/local/private
+    restart: always
+    networks:  
+      - ludosport
+    depends_on:
+      - mariadb
+      - solr
+      
+  mariadb:
+    image: mariadb:11.8
+    container_name: ludosport_db
+    pull_policy: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=${ROOT_PASSWORD}
+      - MARIADB_USER=${USERNAME}
+      - MARIADB_PASSWORD=${PASSWORD}
+      - MARIADB_DATABASE=${DBNAME}
+    volumes:
+      - ./docker/mariadb/initdb:/docker-entrypoint-initdb.d
+      - mariadb_data:/var/lib/mysql
+    restart: always
+    networks:
+      - ludosport
+
+  solr:
+    image: solr:9
+    container_name: ludosport_solr
+    pull_policy: always
+    ports:
+      - 8983:8983
+    volumes:
+      - solr_data:/var/solr
+      - ./docker/solr/ludosport:/_ludosport_config:ro
+    command:
+      - solr-precreate
+      - ludosport
+      - /_ludosport_config
+    environment:
+      - SOLR_MODULES=analysis-extras,ltr,langid,extraction
+    restart: always
+    networks:
+      - ludosport
+      
+volumes:
+  mariadb_data:
+    external: true
+    name: ludosport_db_data
+  drupal_public_files:
+    external: true
+    name: ludosport_public_files
+  drupal_private_files:
+    external: true
+    name: ludosport_private_files
+  solr_data:
+    external: true
+    name: ludosport_solr_data
+networks:
+  ludosport:
+    external: true
+    name: ludosport
+  proxy:
+    external: true
+    # Traefik network
+    name: services

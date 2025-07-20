@@ -1,0 +1,50 @@
+FROM php:8.3-fpm-alpine
+
+# Install packages
+RUN apk add --no-cache \
+    bash \
+    freetype-dev \
+    git \
+    icu-dev \
+    jpeg-dev \
+    libavif-dev \
+    libpng-dev \
+    libwebp-dev \
+    libzip-dev \
+    mysql-client \
+    sudo \
+    unzip
+
+# Install the PHP zip extention
+RUN docker-php-ext-install zip
+
+# Install the PHP intl extention
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
+
+# Install the PHP mysqli extention
+RUN docker-php-ext-install mysqli
+
+# Install the PHP pdo_mysql extention
+RUN docker-php-ext-install pdo_mysql
+
+# Install the PHP gd library
+RUN docker-php-ext-install gd && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-avif --with-webp && \
+    docker-php-ext-install gd
+
+# Install composer and add its bin to the PATH.
+RUN curl -s http://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
+
+# Create deploy user 
+RUN adduser -u 1000 -G www-data -s /bin/bash -D deploy
+
+# Add root user to www-data group
+RUN addgroup root www-data
+
+WORKDIR /var/www/ludosport
+
+COPY start_with_deploy /usr/local/bin/
+
+CMD ["start_with_deploy"]

@@ -68,3 +68,6 @@
 
 # Ignore sql dumps
 /web/*.sql
+
+# Ignore DDEV created files
+/cron-log.txt
