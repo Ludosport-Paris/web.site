@@ -21,7 +21,10 @@ services:
       - php-fpm
 
   php-fpm:
-    build: ./docker/php-fpm
+    build: 
+      context: ./docker/php-fpm
+      args:
+        - DEPLOY_USER_ID
     container_name: ludosport_php
     pull_policy: always
     environment:

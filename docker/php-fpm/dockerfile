@@ -37,8 +37,9 @@ RUN docker-php-ext-install gd && \
 RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-# Create deploy user 
-RUN adduser -u 1000 -G www-data -s /bin/bash -D deploy
+# Create deploy user
+ARG DEPLOY_USER_ID
+RUN adduser -u $DEPLOY_USER_ID -G www-data -s /bin/bash -D deploy
 
 # Add root user to www-data group
 RUN addgroup root www-data
