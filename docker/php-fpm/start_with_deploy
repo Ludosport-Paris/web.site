@@ -1,7 +1,13 @@
 #!/bin/sh
 
 WWW_USER=www-data
-DEPLOY_USER=deploy
+
+if id deploy >/dev/null 2>&1; then
+    DEPLOY_USER=deploy
+else
+    DEPLOY_USER=root
+fi
+
 
 # Change owner group of all application
 chown -R ${DEPLOY_USER}:${WWW_USER} /var/www/ludosport

@@ -39,7 +39,7 @@ RUN curl -s http://getcomposer.org/installer | php && \
 
 # Create deploy user
 ARG DEPLOY_USER_ID
-RUN adduser -u $DEPLOY_USER_ID -G www-data -s /bin/bash -D deploy
+RUN if [[ $DEPLOY_USER_ID -ne 0 ]]; then adduser -u $DEPLOY_USER_ID -G www-data -s /bin/bash -D deploy; fi
 
 # Add root user to www-data group
 RUN addgroup root www-data
