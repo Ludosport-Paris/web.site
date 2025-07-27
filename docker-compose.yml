@@ -9,8 +9,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./web:/var/www/ludosport/web:ro
-      - drupal_public_files:/var/local/files:ro
+      - drupal_www:/var/local/drupal/www:ro
+      - drupal_public_files:/var/local/drupal/files:ro
     restart: always
     networks:
       - ludosport
@@ -21,8 +21,6 @@ services:
   php-fpm:
     build: 
       context: ./docker/php-fpm
-      args:
-        - DEPLOY_USER_ID
     container_name: ludosport_php
     pull_policy: always
     environment:
@@ -34,9 +32,9 @@ services:
       - PORT
       - HASH_SALT
     volumes:
-      - ./:/var/www/ludosport
-      - drupal_public_files:/var/local/files
-      - drupal_private_files:/var/local/private
+      - drupal_www:/var/local/drupal/www
+      - drupal_public_files:/var/local/drupal/files
+      - drupal_private_files:/var/local/drupal/private
     restart: always
     networks:  
       - ludosport
@@ -54,7 +52,6 @@ services:
       - MARIADB_PASSWORD=${PASSWORD}
       - MARIADB_DATABASE=${DBNAME}
     volumes:
-      - ./docker/mariadb/initdb:/docker-entrypoint-initdb.d
       - mariadb_data:/var/lib/mysql
     restart: always
     networks:
@@ -68,11 +65,9 @@ services:
       - 8983:8983
     volumes:
       - solr_data:/var/solr
-      - ./docker/solr/ludosport:/_ludosport_config:ro
     command:
       - solr-precreate
-      - ludosport
-      - /_ludosport_config
+      - ludosport  
     environment:
       - SOLR_MODULES=analysis-extras,ltr,langid,extraction
     restart: always
@@ -83,6 +78,9 @@ volumes:
   mariadb_data:
     external: true
     name: ludosport_db_data
+  drupal_www:
+    external: true
+    name: ludosport_www
   drupal_public_files:
     external: true
     name: ludosport_public_files
@@ -92,6 +90,7 @@ volumes:
   solr_data:
     external: true
     name: ludosport_solr_data
+
 networks:
   ludosport:
     external: true

@@ -597,7 +597,7 @@ $settings['reverse_proxy_addresses'] = ['172.20.0.0/16'];
  * See https://www.drupal.org/documentation/modules/file for more information
  * about securing private files.
  */
-$settings['file_private_path'] = '/var/local/private';
+$settings['file_private_path'] = '/var/local/drupal/private';
 
 /**
  * Temporary file path:

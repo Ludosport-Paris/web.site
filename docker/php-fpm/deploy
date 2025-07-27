@@ -1,0 +1,75 @@
+#!/bin/sh
+
+# Vérifier si la révision a été passée en argument
+if [ -z "$1" ]; then
+    echo "Erreur : Aucune revision fournie."
+    echo "Usage : $0 <revision> <path_to_archive>"
+    exit 1
+fi
+
+revision="$1"
+if [ -z "$2"]; then
+    path_to_archive="/var/tmp"
+else
+    path_to_archive="$2"
+fi
+filepath="$path_to_archive/$revision.tar"
+
+if [ ! -f "$filepath" ]; then
+    echo "Erreur : l'archive de la revision '$filepath' n'existe pas"
+    exit 2
+fi
+
+WWW_USER=www-data 
+DEPLOY_USER=root
+
+# Décompression de l'archive
+mkdir "/var/local/drupal/www/$revision"
+tar -xf $filepath -C "/var/local/drupal/www/$revision"
+
+# Create settings.php symbolic link
+ln -fs /var/local/drupal/www/settings.php "/var/local/drupal/www/$revision/web/sites/default/settings.php"
+
+# Go to the new revision folder
+cd "/var/local/drupal/www/$revision"
+
+# Composer install
+sudo -E composer install --no-dev
+
+# Change owner group of all application assets
+chown -R ${DEPLOY_USER}:${WWW_USER} "/var/local/drupal/www/$revision"
+chown -R ${DEPLOY_USER}:${WWW_USER} /var/local/drupal/files
+chown -R ${DEPLOY_USER}:${WWW_USER} /var/local/drupal/private
+
+# Manage file permissions
+find ./web -type d -exec chmod u=rwx,g=rx,o= '{}' \;
+find ./web -type f -exec chmod u=rw,g=r,o= '{}' \;
+ln -fs /var/local/drupal/files ./web/sites/default/files
+chmod -R ug=rwx,o= ./web/sites/default/files
+chmod -R ug=rwx,o= /var/local/drupal/private
+find ./web/sites/default/files -type f -exec chmod ug=rw,o= '{}' \;
+find /var/local/drupal/private -type f -exec chmod ug=rw,o= '{}' \;
+
+# Go to the current revision folder
+cd "/var/local/drupal/www/current"
+
+# Maintenance mode on
+sudo -E -u ${WWW_USER} drush maint:set 1
+
+# Switch current to new revision
+ln -fs "/var/local/drupal/www/$revision" /var/local/drupal/www/current 
+
+# Go to the current revision folder
+cd "/var/local/drupal/www/current"
+
+# Cache clear
+sudo -E -u ${WWW_USER} drush cr
+
+# DB Update
+sudo -E -u ${WWW_USER} drush updb -y
+
+# Import configs
+sudo -E -u ${WWW_USER} bash -c "drush cim -y > /dev/null || drush cim -y"
+
+# Maintenance mode off
+sudo -E -u ${WWW_USER} drush maint:set 0

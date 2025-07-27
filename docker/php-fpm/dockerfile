@@ -37,18 +37,15 @@ RUN docker-php-ext-install gd && \
 RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-# Create deploy user
-ARG DEPLOY_USER_ID
-RUN if [[ $DEPLOY_USER_ID -ne 0 ]]; then adduser -u $DEPLOY_USER_ID -G www-data -s /bin/bash -D deploy; fi
+# Création des volumes
+RUN mkdir /var/local/drupal
+VOLUME [ "/var/local/drupal/www", "/var/local/drupal/files", "/var/local/drupal/private" ]
 
-# Add root user to www-data group
-RUN addgroup root www-data
+# Copie du script de déploiement Drupal
+COPY ./deploy /var/local/drupal/
+RUN chmod u+x /var/local/drupal/deploy
 
-# Copy Drupal settings.php
-COPY drupal/settings.php /var/local/
+# Add drush symbolic link
+RUN ln -fs /var/local/drupal/www/current/vendor/bin/drush /usr/local/bin/drush
 
-WORKDIR /var/www/ludosport
-
-COPY start_with_deploy /usr/local/bin/
-
-CMD ["start_with_deploy"]
+WORKDIR /var/local/drupal
