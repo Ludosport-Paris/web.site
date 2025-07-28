@@ -36,6 +36,7 @@
         "drupal/search_api": "^1.38",
         "drupal/search_api_solr": "^4.3",
         "drupal/shs": "^2.0",
+        "drupal/smtp": "^1.4",
         "drupal/symfony_mailer_lite": "^2.0",
         "drupal/taxonomy_manager": "^2.0",
         "drupal/term_reference_tree": "^2.0",

@@ -1,11 +1,11 @@
 _core:
   default_config_hash: IhwTepsVwtbtbcT5GzQKhCXDCRvbk3MNkWqPiuiZ10s
-theme: olivero
+theme: current
 defaults:
-  sender: symfony_mailer_lite
+  sender: SMTPMailSystem
   formatter: symfony_mailer_lite
 modules:
   symfony_mailer_lite:
     none:
-      sender: symfony_mailer_lite
+      sender: SMTPMailSystem
       formatter: symfony_mailer_lite
