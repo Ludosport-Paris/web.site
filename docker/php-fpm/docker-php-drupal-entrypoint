@@ -9,4 +9,13 @@ sudo -E -u www-data drush updb -y
 # Import configs
 sudo -E -u www-data bash -c "drush cim -y > /dev/null || drush cim -y"
 
+# Set Drush cron
+echo "*/5     *       *       *       *       \
+env DBNAME='$DBNAME' USERNAME='$USERNAME' PASSWORD='$PASSWORD' \
+HOST='$HOST' PORT='$PORT' HASH_SALT='$HASH_SALT' \
+drush --root=/app --quiet cron" | crontab -u www-data -
+
+# Start the helper crond process in background
+crond -bS
+
 . docker-php-entrypoint

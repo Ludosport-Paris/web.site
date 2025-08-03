@@ -61,9 +61,6 @@ VOLUME [ "/var/local/drupal/files", "/var/local/drupal/private" ]
 RUN ln -fs /var/local/drupal/files /app/web/sites/default/files && \
     chmod ug=rwx,o= /app/web/sites/default/files
 
-# Create crontab entry for drush cron
-RUN echo "*/5    *   *   *   *   drush --root=/app --quiet cron" | crontab -u www-data -
-
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 CMD nc -z 127.0.0.1 9000 || exit 1
 
 # Add Drupal entrypoint
