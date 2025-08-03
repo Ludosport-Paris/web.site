@@ -89,12 +89,12 @@
  * @endcode
  */
 $databases['default']['default'] = array (
-  'database' => getenv('DBNAME')?:$_SERVER['DBNAME'],
-  'username' => getenv('USERNAME')?:$_ENV['USERNAME'],
-  'password' => getenv('PASSWORD')?:$_ENV['PASSWORD'],
+  'database' => getenv('DBNAME'),
+  'username' => getenv('USERNAME'),
+  'password' => getenv('PASSWORD'),
   'prefix' => '',
-  'host' => getenv('HOST')?:$_ENV['HOST'],
-  'port' => getenv('PORT')?:$_ENV['PORT'],
+  'host' => getenv('HOST'),
+  'port' => getenv('PORT'),
   'isolation_level' => 'READ COMMITTED',
   'driver' => 'mysql',
   'namespace' => 'Drupal\\mysql\\Driver\\Database\\mysql',
@@ -750,7 +750,7 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * @see https://www.drupal.org/docs/installing-drupal/trusted-host-settings
  */
 $settings['trusted_host_patterns'] = [
-  '^ludosport\.paris\.zlika\.com$'
+  '^'.preg_quote(getenv('FQDN')).'$'
 ];
 
 /**
@@ -857,6 +857,6 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
  * Keep this code block at the end of this file to take full effect.
  */
 
- if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-   include $app_root . '/' . $site_path . '/settings.local.php';
- }
+ # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+ #  include $app_root . '/' . $site_path . '/settings.local.php';
+ # }

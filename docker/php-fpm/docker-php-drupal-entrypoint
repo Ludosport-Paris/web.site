@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Cache clear
+sudo -E -u www-data drush cr
+
+# DB Update
+sudo -E -u www-data drush updb -y
+
+# Import configs
+sudo -E -u www-data bash -c "drush cim -y > /dev/null || drush cim -y"
+
+. docker-php-entrypoint
