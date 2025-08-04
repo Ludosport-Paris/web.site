@@ -3,9 +3,7 @@ name: ludosport-paris
 services:
 
   web:
-    build: 
-      context: .
-      target: web
+    image: ghcr.io/ludosport-paris/web:main
     container_name: ludosport_web
     pull_policy: always
     ports:
@@ -23,9 +21,7 @@ services:
         condition: service_healthy
 
   php-fpm:
-    build: 
-      context: .
-      target: php-fpm
+    image: ghcr.io/ludosport-paris/php-fpm:main
     container_name: ludosport_php_fpm
     pull_policy: always
     environment:
