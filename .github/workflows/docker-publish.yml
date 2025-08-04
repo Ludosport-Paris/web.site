@@ -57,17 +57,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extract Web metadata (tags, labels) for Docker
+      # Extract WEB metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
-      - name: Extract Web Docker metadata
+      - name: Extract WEB Docker metadata
         id: meta-web
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
-          images: ${{ env.REGISTRY }}/Ludosport-Paris/Web
+          images: ${{ env.REGISTRY }}/Ludosport-Paris/WEB
+          labels: |
+            org.opencontainers.image.description=Ludosport Paris Web Site - WEB
+            org.opencontainers.image.title=WEB
 
-      # Build and push Web Docker image with Buildx (don't push on PR)
+      # Build and push WEB Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build and push Web Docker image
+      - name: Build and push WEB Docker image
         id: build-and-push-web
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
@@ -79,7 +82,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Sign the resulting Web Docker image digest except on PRs.
+      # Sign the resulting WEB Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish
       # transparency data even for private images, pass --force to cosign below.
@@ -90,6 +93,46 @@ jobs:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
           TAGS: ${{ steps.meta-web.outputs.tags }}
           DIGEST: ${{ steps.build-and-push-web.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+      # Extract PHP-FPM metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract PHP-FPM Docker metadata
+        id: meta-php-fpm
+        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
+        with:
+          images: ${{ env.REGISTRY }}/Ludosport-Paris/PHP-FPM
+          labels: |
+            org.opencontainers.image.description=Ludosport Paris Web Site - PHP-FPM
+            org.opencontainers.image.title=PHP-FPM
+
+      # Build and push PHP-FPM Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push PHP-FPM Docker image
+        id: build-and-push-php-fpm
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          context: .
+          target: php-fpm
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-php-fpm.outputs.tags }}
+          labels: ${{ steps.meta-php-fpm.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Sign the resulting PHP-FPM Docker image digest except on PRs.
+      # This will only write to the public Rekor transparency log when the Docker
+      # repository is public to avoid leaking data.  If you would like to publish
+      # transparency data even for private images, pass --force to cosign below.
+      # https://github.com/sigstore/cosign
+      - name: Sign the published PHP-FPM Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: ${{ steps.meta-php-fpm.outputs.tags }}
+          DIGEST: ${{ steps.build-and-push-php-fpm.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
