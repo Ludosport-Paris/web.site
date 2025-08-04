@@ -21,3 +21,6 @@ dcr:
 
 ssh:
 	@docker compose exec -ti php-fpm /bin/bash
+
+ssh-web:
+	@docker compose exec -ti web /bin/sh

@@ -34,10 +34,10 @@ RUN docker-php-ext-install gd && \
     docker-php-ext-install gd
 
 # Copie de l'application
-COPY --chown=root:root composer.* /app/
-COPY --chown=root:root config /app/config
-COPY --chown=root:root web /app/web
-COPY --chown=root:root ./docker/php-fpm/drupal/settings.php /app/web/sites/default/settings.php
+COPY --chown=root: composer.* /app/
+COPY --chown=root: config /app/config
+COPY --chown=root: web /app/web
+COPY --chown=root: ./docker/php-fpm/drupal/settings.php /app/web/sites/default/settings.php
 RUN chmod u=r,g=r,o= /app/web/sites/default/settings.php
 
 # Installation de composer
@@ -50,16 +50,17 @@ RUN composer install --no-dev --working-dir=/app
 RUN ln -fs /app/vendor/bin/drush /usr/local/bin/drush
 
 # Set file permissions
-RUN chown -R www-data:www-data /app && \
+RUN chown -R www-data: /app && \
     find /app/web -type d -exec chmod u=rwx,g=rx,o= '{}' \; && \
     find /app/web -type f -exec chmod u=rw,g=r,o= '{}' \;
 
 # Création des volumes
 VOLUME [ "/var/local/drupal/files", "/var/local/drupal/private" ]
+RUN mkdir -p -m ug=rwx,o= /var/local/drupal/files /var/local/drupal/private && \
+    chown -R www-data: /var/local/drupal
 
 # Add public files symbolic link
-RUN ln -fs /var/local/drupal/files /app/web/sites/default/files && \
-    chmod ug=rwx,o= /app/web/sites/default/files
+RUN ln -fs /var/local/drupal/files /app/web/sites/default
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 CMD nc -z 127.0.0.1 9000 || exit 1
 
@@ -68,7 +69,6 @@ COPY ./docker/php-fpm/docker-php-drupal-entrypoint /usr/local/bin/
 ENTRYPOINT [ "docker-php-drupal-entrypoint" ]
 
 WORKDIR /app
-
 CMD [ "php-fpm"]
 
 # ------ Web Image ------
@@ -81,7 +81,9 @@ COPY ./docker/apache/httpd.conf /usr/local/apache2/conf/
 COPY ./docker/apache/vhosts/ludosport.conf /usr/local/apache2/conf/vhosts/
 
 # Copie de l'application
-COPY --chown=www-data:www-data --from=php-fpm /app/web /app/web
+COPY --chown=www-data: --from=php-fpm /app/web /app/web
 
 # Création des volumes
+RUN mkdir -p -m ug=rwx,o= /var/local/drupal/files && \
+    chown -R www-data: /var/local/drupal
 VOLUME [ "/var/local/drupal/files" ]
