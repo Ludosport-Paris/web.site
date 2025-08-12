@@ -33,8 +33,6 @@
         "drupal/pathauto": "^1.13",
         "drupal/profile": "^1.12",
         "drupal/robotstxt": "^1.6",
-        "drupal/search_api": "^1.38",
-        "drupal/search_api_solr": "^4.3",
         "drupal/shs": "^2.0",
         "drupal/smtp": "^1.4",
         "drupal/symfony_mailer_lite": "^2.0",
